@@ -1,0 +1,10 @@
+#ifndef sentiment
+#define sentiment
+
+## this is a pre-requisite
+#include <contrib/pml/contrib.mac>
+#include <contrib/nondeprel_common/contrib.mac>
+
+#include "sentiment.mac"
+
+#endif sentiment

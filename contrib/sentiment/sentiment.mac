@@ -1,0 +1,87 @@
+# -*- cperl -*-
+
+# Macros for TrEd for annotating sentiment.
+# Miroslav Tynovsky, surname at ufal.mff.cuni.cz
+
+{
+
+package PML_T_Sentiment;
+BEGIN { import NonDepRel_Common; import TredMacro; }
+#binding-context PML_T_Sentiment
+
+#include <contrib/support/unbind_edit.inc>
+
+use strict;
+use warnings;
+no warnings qw(redefine);
+
+use vars qw($this $root $grp);
+
+unshift @TredMacro::AUTO_CONTEXT_GUESSING, sub {
+  my ($hook) = @_;
+  my $resuming = ($hook eq 'file_resumed_hook');
+  my $current = CurrentContext();
+  if ( (FileMetaData('schema-url') || '') =~ /tdata_schema_sentiment\.xml/ ) {
+    SetCurrentStylesheet('PML_T_Sentiment') if $resuming;
+    return 'PML_T_Sentiment';
+  }
+  return;
+};
+
+#sub file_opened_hook {
+#  return unless CurrentFile();
+  # print STDERR "file opened hook\n";
+#  initialize_file_related_resources({
+#    'sentiment' => 1,
+#  });
+#  precompute_file_related_resources({
+#	'sentiment' => 1,
+#  });
+#}
+
+#sub file_reloaded_hook {
+#  return unless CurrentFile();
+  # print STDERR "file opened hook\n";
+#  initialize_file_related_resources({
+#    'sentiment' => 1,
+#  });
+#  precompute_file_related_resources({
+#	'sentiment' => 1,
+#  });
+#}
+
+#bind switch_remember_only_actual_node to space menu Remember/forget node
+sub switch_remember_only_actual_node {
+	forget_all_remembered_nodes();
+	switch_remember_actual_node();
+}
+
+#bind init_schema_sentiment to i menu Init sentiment attributes
+sub init_schema_sentiment {
+  return unless CurrentFile();
+  if (FileMetaData('schema-url') !~ /tdata_schema_sentiment\.xml/) {
+    FileMetaData('schema-url','tdata_schema_sentiment.xml'); # set schema
+    CurrentFile()->notSaved(1); # make sure TrEd asks to save the file
+    ReloadCurrentFile(); # reload the file with the new schema
+  }
+  ChangingFile(0);
+}
+
+#bind anotate_sentiment_source to s menu Anotate sentiment source
+sub anotate_sentiment_source {
+	print STDERR "anotate_sentiment_source\n";
+	my $ref_remembered_nodes = FileUserData('remembered_nodes');
+	my $judge_node = $ref_remembered_nodes->[0];
+	$judge_node->{'sentiment_source.rf'} = $this->{id};
+}
+
+#bind anotate_sentiment_target to t menu Anotate sentiment target
+sub anotate_sentiment_target {
+	print STDERR "anotate_sentiment_target\n";
+	my $ref_remembered_nodes = FileUserData('remembered_nodes');
+	my $judge_node = $ref_remembered_nodes->[0];
+	$judge_node->{'sentiment_target.rf'} = $this->{id};
+}
+
+
+} # package

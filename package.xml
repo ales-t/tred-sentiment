@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tred_extension xmlns="http://ufal.mff.cuni.cz/pdt/pml/" install_size="262388">
+  <head>
+    <schema href="tred_extension_schema.xml"/>
+  </head>
+  <pkgname>sentiment</pkgname>
+  <repository href="http://ufal.mff.cuni.cz/~pajas/tred/extensions/"/>
+  <title>Prague Dependency Treebank 2.0 Sentiment Annotation</title>
+  <version>0.01</version>
+  <copyright year="2008">Miroslav Tynovsky</copyright>
+  <description>Provides support for annotating sentiment in t-layer</description>
+  <icon>icons/tree.png</icon>
+  <require>
+	  <!--<extension name="pdt_vallex" href="http://ufal.mff.cuni.cz/~pajas/tred/extensions/pdt_vallex"/>-->
+    <tred min_version="1.4375"/>
+  </require>
+</tred_extension>

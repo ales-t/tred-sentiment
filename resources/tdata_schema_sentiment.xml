@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pml_schema xmlns="http://ufal.mff.cuni.cz/pdt/pml/schema/"
+	    version="1.1">
+  <revision>1.0.001</revision>
+  <description>PDT tectogrammatical trees with sentiment annotation</description>
+  <reference name="adata" readas="trees"/>
+
+  <import schema="tdata_schema.xml"/>
+
+  <derive type="t-node.type">
+    <structure>
+	  <member name="sentiment_eval" type="sentiment_eval.type"/>
+      <member name="sentiment_source.rf" type="sentiment_source-link.type"/>
+	  <member name="sentiment_target.rf" type="sentiment_target-link.type"/>
+    </structure>
+  </derive>
+
+  <type name="sentiment_eval.type">
+	<choice>
+		<value>POSITIVE</value>
+		<value>NEGATIVE</value>
+	</choice>
+  </type>
+
+  <type name="sentiment_source-link.type">
+	<cdata format="PMLREF"/>
+  </type>
+
+  <type name="sentiment_target-link.type">
+	<cdata format="PMLREF"/>
+  </type>
+
+</pml_schema>
