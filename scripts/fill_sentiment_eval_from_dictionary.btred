@@ -52,7 +52,7 @@ sub fill_sentiment_eval {
         if ($POS eq $dict_ref->{$lemma}->{POS} ) {
             $this->{'sentiment'}{'sentiment_eval'} = $dict_ref->{$lemma}->{polarity};
         }
-        print "$lemma\t$dict_ref->{$lemma}->{polarity}\n";
+#        print "$lemma\t$dict_ref->{$lemma}->{polarity}\n";
     }
     ChangingFile(1);
 }
