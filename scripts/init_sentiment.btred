@@ -1,0 +1,17 @@
+#!btred -t PML_T -e dummy()
+#-*- mode: cperl -*-
+
+package PML_T;
+
+sub file_opened_hook {
+    print STDERR "FILE OPENED HOOK...";
+    if (FileMetaData('schema-url') !~ /tdata_schema_sentiment\.xml/) {
+        FileMetaData('schema-url','tdata_schema_sentiment.xml'); # set schema
+    }
+    ChangingFile(1);
+    print STDERR "DONE.\n";
+}
+
+sub dummy {
+;
+}

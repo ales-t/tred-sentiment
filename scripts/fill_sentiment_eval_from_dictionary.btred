@@ -1,0 +1,58 @@
+#!btred -t PML_T -TN -e fill_sentiment_eval()
+#-*- mode: cperl -*-
+
+package PML_T;
+BEGIN { import PML_T };
+
+use warnings;
+use strict;
+
+use open qw( :std :utf8 );
+use vars qw( $this $root );
+
+my $dict_ref;
+my $dictionary_fn = 'sublex_1_0.txt';
+
+sub start_hook {
+    $dict_ref = fill_dictionary();
+    print STDERR "START HOOK\n";
+}
+
+sub file_opened_hook {
+    print STDERR "FILE OPENED HOOK...";
+    if (FileMetaData('schema-url') !~ /tdata_schema_sentiment\.xml/) {
+        FileMetaData('schema-url','tdata_schema_sentiment.xml'); # set schema
+        print STDERR " . ";
+#        Save();
+        print STDERR " .. ";
+        ReloadCurrentFile(); # reload the file with the new schema
+    }
+    ChangingFile(1);
+    print STDERR "DONE.\n";
+}
+
+sub fill_dictionary {
+    open my $DICT_FH, '<', $dictionary_fn or die "Cannot open file $dictionary_fn: $!\n";
+    while ( defined( my $line = <$DICT_FH> )) {
+        my ($POS, $lemma, $polarity) = split /\s+/, $line;
+        (undef, $polarity) = split '=', $polarity;
+        $dict_ref->{$lemma}->{POS} = $POS;
+        $dict_ref->{$lemma}->{polarity} = $polarity;
+    }
+    return $dict_ref;
+}
+
+sub fill_sentiment_eval {
+    my $anode = PML_T::GetALexNode($this);
+    return unless defined $anode;
+    my $lemma = $anode->attr('m/lemma');
+    return unless defined $lemma;
+    if ( defined $dict_ref->{$lemma} ) {
+        my $POS = substr $anode->attr('m/tag'),0,1;
+        if ($POS eq $dict_ref->{$lemma}->{POS} ) {
+            $this->{'sentiment'}{'sentiment_eval'} = $dict_ref->{$lemma}->{polarity};
+        }
+        print "$lemma\t$dict_ref->{$lemma}->{polarity}\n";
+    }
+    ChangingFile(1);
+}

@@ -2,6 +2,7 @@
 
 # Macros for TrEd for annotating sentiment.
 # Miroslav Tynovsky, surname at ufal.mff.cuni.cz
+# Jan Masek, honza (dot) masek (at) gmail (dot) com
 
 {
 
@@ -10,6 +11,9 @@ BEGIN { import NonDepRel_Common; import TredMacro; }
 #binding-context PML_T_Sentiment
 
 #include <contrib/support/unbind_edit.inc>
+
+#include <contrib/support/arrows.inc>
+#include <contrib/pml/PML.mak>
 
 use strict;
 use warnings;
@@ -27,6 +31,42 @@ unshift @TredMacro::AUTO_CONTEXT_GUESSING, sub {
   }
   return;
 };
+
+
+# sub root_style_hook {
+#     DrawArrows_init();
+# }
+
+# sub after_redraw_hook {
+#     DrawArrows_cleanup();
+# }
+
+# sub node_style_hook {
+#     my ($node,$styles) = @_;
+#     DrawArrows($node,$styles,
+#                [ {
+#                    # an arrow with a target
+#                    -target => PML::GetNodeByID($node->{ref}),
+#                    # other options: -tag -arrow -arrowshape -width -smooth -fill -dash
+#                },
+#                  {
+#                      # an arrow without a target
+#                      -deltax => 10,
+#                      -deltay => '(yn-yp)/2',
+#                      # ...
+#                  },
+#                  {
+#                      # an arrow with modified origin
+#                      -originx => 'xn+10',
+#                      -originy => 'yn+10',
+#                      # ...
+#                  },
+#              ],
+#                {
+#                    # options common to all edges
+#                });
+# }
+
 
 #sub file_opened_hook {
 #  return unless CurrentFile();
@@ -57,6 +97,7 @@ sub switch_remember_only_actual_node {
 }
 
 #bind init_schema_sentiment to i menu Init sentiment attributes
+# should not be necessary if init_sentiment.btred had been run
 sub init_schema_sentiment {
   return unless CurrentFile();
   if (FileMetaData('schema-url') !~ /tdata_schema_sentiment\.xml/) {
@@ -72,7 +113,7 @@ sub anotate_sentiment_source {
 	print STDERR "anotate_sentiment_source\n";
 	my $ref_remembered_nodes = FileUserData('remembered_nodes');
 	my $judge_node = $ref_remembered_nodes->[0];
-	$judge_node->{'sentiment_source.rf'} = $this->{id};
+	$judge_node->{'sentiment'}{'sentiment_source'}{'sentiment/sentiment_source.rf'} = $this->{id};
 }
 
 #bind anotate_sentiment_target to t menu Anotate sentiment target
@@ -80,8 +121,32 @@ sub anotate_sentiment_target {
 	print STDERR "anotate_sentiment_target\n";
 	my $ref_remembered_nodes = FileUserData('remembered_nodes');
 	my $judge_node = $ref_remembered_nodes->[0];
-	$judge_node->{'sentiment_target.rf'} = $this->{id};
+	$judge_node->{'sentiment'}{'sentiment_target'}{'sentiment_target.rf'} = $this->{id};
 }
 
+#bind set_sentiment_positive to p menu Set sentiment value to positive
+sub set_sentiment_positive {
+    print STDERR "set_sentiment_positive\n";
+    $this->{'sentiment'}{'sentiment_eval'} = 'positive';
+    $this->{'sentiment'}{'was_annotated'} = 1;
+}
+
+#bind set_sentiment_negative to n menu Set sentiment value to negative
+sub set_sentiment_negative {
+    print STDERR "set_sentiment_positive\n";
+    $this->{sentiment}{sentiment_eval} = 'negative';
+    $this->{'sentiment'}{'was_annotated'} = 1;
+}
+
+#bind remove_sentiment to r menu Remove sentiment from current node
+sub remove_sentiment {
+    print STDERR "remove_sentiment\n";
+    $this->{'sentiment'}{'sentiment_eval'} = '';
+    $this->{'sentiment'}{'sentiment_source'}{'is_external'} = '';
+    $this->{'sentiment'}{'sentiment_source'}{'sentiment_source.rf'} = '';
+    $this->{'sentiment'}{'sentiment_target'}{'is_external'} = '';
+    $this->{'sentiment'}{'sentiment_target'}{'sentiment_target.rf'} = '';
+    $this->{'sentiment'}{'was_annotated'} = 1;
+}
 
 } # package

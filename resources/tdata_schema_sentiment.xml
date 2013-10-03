@@ -9,25 +9,46 @@
 
   <derive type="t-node.type">
     <structure>
-	  <member name="sentiment_eval" type="sentiment_eval.type"/>
-      <member name="sentiment_source.rf" type="sentiment_source-link.type"/>
-	  <member name="sentiment_target.rf" type="sentiment_target-link.type"/>
+      <member name="sentiment" type="sentiment.type"/>
     </structure>
   </derive>
 
+  <type name="sentiment.type">
+    <structure>
+      <member name="sentiment_eval" type="sentiment_eval.type"/>
+      <member name="was_annotated" type="bool.type"/>
+      <member name="sentiment_source">
+        <list ordered="0">
+          <structure>
+            <member name="sentiment_source.rf" type="sentiment_source-link.type"/>
+            <member name="is_external" type="bool.type"/>
+          </structure>
+        </list>
+      </member>
+      <member name="sentiment_target">
+        <list ordered="0">
+          <structure>
+            <member name="sentiment_target.rf" type="sentiment_target-link.type"/>
+            <member name="is_external" type="bool.type"/>
+          </structure>
+        </list>
+      </member>
+    </structure>
+  </type>
+  
   <type name="sentiment_eval.type">
-	<choice>
-		<value>POSITIVE</value>
-		<value>NEGATIVE</value>
-	</choice>
+    <choice>
+      <value>positive</value>
+      <value>negative</value>
+    </choice>
   </type>
-
+  
   <type name="sentiment_source-link.type">
-	<cdata format="PMLREF"/>
+    <cdata format="PMLREF"/>
   </type>
-
+  
   <type name="sentiment_target-link.type">
-	<cdata format="PMLREF"/>
+    <cdata format="PMLREF"/>
   </type>
-
+  
 </pml_schema>
