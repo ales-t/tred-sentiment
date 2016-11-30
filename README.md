@@ -13,4 +13,4 @@ Sentiment annotation extension for TrEd
 
 Open a file with tectogrammatical annotation (.t.gz file). Select PML\_T\_Sentiment mode. Click Macros -> Current Mode -> Init sentiment attributes. If you are asked if you want to save the file, click Yes. Doubleclick a node and you will see that there are sentiment related attributes: sentiment\_eval, sentiment\_source.rf sentiment\_target.rf.
 
-To annotate, select a node representing an assessing word and "remember it" pressing space. Then select a source of assessment and press s, then select a target of assessment and press t. Finally assing the sentiment\_eval attribute value POSITIVE or NEGATIVE.
+To annotate, select a node representing an assessing word and "remember it" pressing space. Then select a source of assessment and press s, then select a target of assessment and press t. Finally assign the sentiment\_eval attribute value POSITIVE or NEGATIVE.
