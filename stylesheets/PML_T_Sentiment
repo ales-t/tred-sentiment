@@ -53,15 +53,8 @@ style:<?
   }
 ?>
 style:<?
-  if ($${tfa}=~/^[tfc]$/) {
-    '#{Oval-fill:'.CustomColor('tfa_'.$${tfa}).'}${tfa}.'
-  } else {
-    '#{Oval-fill:'.CustomColor('tfa_no').'}'
-  }
-?>#{CurrentOval-width:3}#{CurrentOval-outline:<? CustomColor('current') ?>}
-style:<?
   if ($this->attr('sentiment/sentiment_eval') eq 'positive') {
-    if ($this->attr('sentiment/sentiment_annotated')) {
+    if ($this->attr('sentiment/was_annotated')) {
       '#{Oval-fill:'.'#00C000'.'}'
     }
     else {
@@ -69,7 +62,7 @@ style:<?
     }
   }
   elsif ($this->attr('sentiment/sentiment_eval') eq 'negative') {
-    if ($this->attr('sentiment/sentiment_annotated')) {
+    if ($this->attr('sentiment/was_annotated')) {
       '#{Oval-fill:'.'#C00000'.'}'
     }
     else {
