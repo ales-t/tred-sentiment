@@ -75,7 +75,7 @@ unshift @TredMacro::AUTO_CONTEXT_GUESSING, sub {
 #    'sentiment' => 1,
 #  });
 #  precompute_file_related_resources({
-#	'sentiment' => 1,
+# 'sentiment' => 1,
 #  });
 #}
 
@@ -86,14 +86,14 @@ unshift @TredMacro::AUTO_CONTEXT_GUESSING, sub {
 #    'sentiment' => 1,
 #  });
 #  precompute_file_related_resources({
-#	'sentiment' => 1,
+# 'sentiment' => 1,
 #  });
 #}
 
 #bind switch_remember_only_actual_node to space menu Remember/forget node
-sub switch_remember_only_actual_node {
-	forget_all_remembered_nodes();
-	switch_remember_actual_node();
+sub switch_remember_only_actual_node {  
+  forget_all_remembered_nodes();
+  switch_remember_actual_node();
 }
 
 #bind init_schema_sentiment to i menu Init sentiment attributes
@@ -110,17 +110,17 @@ sub init_schema_sentiment {
 
 #bind anotate_sentiment_source to s menu Anotate sentiment source
 sub anotate_sentiment_source {
-	print STDERR "anotate_sentiment_source\n";
-	my $ref_remembered_nodes = FileUserData('remembered_nodes');
+  print STDERR "anotate_sentiment_source\n";
+  my $ref_remembered_nodes = FileUserData('remembered_nodes');
   if ($ref_remembered_nodes) {
-	  my $judge_node = $ref_remembered_nodes->[0];
+    my $judge_node = $ref_remembered_nodes->[0];
     AddToList($judge_node, "sentiment/sentiment_source", { 'sentiment_source.rf' => $this->{id} });
   }
 }
 
 #bind anotate_sentiment_target to t menu Anotate sentiment target
 sub anotate_sentiment_target {
-	print STDERR "anotate_sentiment_target\n";
+  print STDERR "anotate_sentiment_target\n";
   my $ref_remembered_nodes = FileUserData('remembered_nodes');
   if ($ref_remembered_nodes) {
     my $judge_node = $ref_remembered_nodes->[0];
@@ -130,25 +130,25 @@ sub anotate_sentiment_target {
 
 #bind set_sentiment_positive to p menu Set sentiment value to positive
 sub set_sentiment_positive {
-    print STDERR "set_sentiment_positive\n";
-    $this->{'sentiment'}{'sentiment_eval'} = 'positive';
-    $this->{'sentiment'}{'was_annotated'} = 1;
+  print STDERR "set_sentiment_positive\n";
+  $this->{'sentiment'}{'sentiment_eval'} = 'positive';
+  $this->{'sentiment'}{'was_annotated'} = 1;
 }
 
 #bind set_sentiment_negative to n menu Set sentiment value to negative
 sub set_sentiment_negative {
-    print STDERR "set_sentiment_positive\n";
-    $this->{sentiment}{sentiment_eval} = 'negative';
-    $this->{'sentiment'}{'was_annotated'} = 1;
+  print STDERR "set_sentiment_positive\n";
+  $this->{sentiment}{sentiment_eval} = 'negative';
+  $this->{'sentiment'}{'was_annotated'} = 1;
 }
 
 #bind remove_sentiment to r menu Remove sentiment from current node
 sub remove_sentiment {
-    print STDERR "remove_sentiment\n";
-    $this->{'sentiment'}{'sentiment_eval'} = '';
-    $this->{'sentiment'}{'sentiment_source'} = List();
-    $this->{'sentiment'}{'sentiment_target'} = List();
-    $this->{'sentiment'}{'was_annotated'} = 1;
+  print STDERR "remove_sentiment\n";
+  $this->{'sentiment'}{'sentiment_eval'} = '';
+  $this->{'sentiment'}{'sentiment_source'} = List();
+  $this->{'sentiment'}{'sentiment_target'} = List();
+  $this->{'sentiment'}{'was_annotated'} = 1;
 }
 
 } # package
