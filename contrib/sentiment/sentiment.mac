@@ -113,7 +113,7 @@ sub anotate_sentiment_source {
 	print STDERR "anotate_sentiment_source\n";
 	my $ref_remembered_nodes = FileUserData('remembered_nodes');
 	my $judge_node = $ref_remembered_nodes->[0];
-	$judge_node->{'sentiment'}{'sentiment_source'}{'sentiment/sentiment_source.rf'} = $this->{id};
+	$judge_node->{'sentiment'}{'sentiment_source'}[0]{'sentiment_source.rf'} = $this->{id};
 }
 
 #bind anotate_sentiment_target to t menu Anotate sentiment target
@@ -121,7 +121,7 @@ sub anotate_sentiment_target {
 	print STDERR "anotate_sentiment_target\n";
 	my $ref_remembered_nodes = FileUserData('remembered_nodes');
 	my $judge_node = $ref_remembered_nodes->[0];
-	$judge_node->{'sentiment'}{'sentiment_target'}{'sentiment_target.rf'} = $this->{id};
+	$judge_node->{'sentiment'}{'sentiment_target'}[0]{'sentiment_target.rf'} = $this->{id};
 }
 
 #bind set_sentiment_positive to p menu Set sentiment value to positive
@@ -142,10 +142,10 @@ sub set_sentiment_negative {
 sub remove_sentiment {
     print STDERR "remove_sentiment\n";
     $this->{'sentiment'}{'sentiment_eval'} = '';
-    $this->{'sentiment'}{'sentiment_source'}{'is_external'} = '';
-    $this->{'sentiment'}{'sentiment_source'}{'sentiment_source.rf'} = '';
-    $this->{'sentiment'}{'sentiment_target'}{'is_external'} = '';
-    $this->{'sentiment'}{'sentiment_target'}{'sentiment_target.rf'} = '';
+    $this->{'sentiment'}{'sentiment_source'}[0]{'is_external'} = '';
+    $this->{'sentiment'}{'sentiment_source'}[0]{'sentiment_source.rf'} = '';
+    $this->{'sentiment'}{'sentiment_target'}[0]{'is_external'} = '';
+    $this->{'sentiment'}{'sentiment_target'}[0]{'sentiment_target.rf'} = '';
     $this->{'sentiment'}{'was_annotated'} = 1;
 }
 
